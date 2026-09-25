@@ -9,6 +9,9 @@ import {
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import packageJson from "../../../package.json";
+
+const appVersion = packageJson?.version || "0.1.0";
 
 class Footer extends Component {
   constructor(props) {
@@ -19,10 +22,14 @@ class Footer extends Component {
   }
 
   render() {
+    const isLoginFooter =
+      this.props.location?.pathname === "/" ||
+      this.props.location?.pathname === "/login";
+
     return (
       <footer className="app-footer">
         {this.props.partnerDetail?.name === "Paralus" && (
-          <div className="d-flex flex-row justify-content-between">
+          <div className="d-flex flex-row justify-content-between align-items-center">
             <div>
               <span>
                 {this.props.partnerDetail?.settings?.copyright || (
@@ -58,10 +65,21 @@ class Footer extends Component {
                 Privacy Policy
               </a>
             </div>
+            {isLoginFooter && (
+              <span
+                style={{
+                  color: "#6b7280",
+                  fontSize: "12px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Paralus v{appVersion}
+              </span>
+            )}
           </div>
         )}
         {this.props.partnerDetail?.name !== "Paralus" && (
-          <div className="d-flex flex-row justify-content-between">
+          <div className="d-flex flex-row justify-content-between align-items-center">
             <div>
               <span>{this.props.partnerDetail?.settings?.copyright}</span>
               {this.props.userAndRoleDetail?.organization?.type !== "paid" &&
@@ -76,6 +94,17 @@ class Footer extends Component {
                   </a>
                 )}
             </div>
+            {isLoginFooter && (
+              <span
+                style={{
+                  color: "#6b7280",
+                  fontSize: "12px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Paralus v{appVersion}
+              </span>
+            )}
           </div>
         )}
         <Dialog
